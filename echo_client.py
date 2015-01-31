@@ -13,7 +13,7 @@ def client(msg, log_buffer=sys.stderr):
     try:
         print >>log_buffer, 'sending "{0}"'.format(msg)
         # TODO: send your message to the server here.
-
+        msg = "GET / HTTP/1.1\r\n"
         # TODO: the server should be sending you back your message as a series
         #       of 16-byte chunks.  You will want to log them as you receive
         #       each one.  You will also need to check to make sure that
@@ -27,6 +27,7 @@ def client(msg, log_buffer=sys.stderr):
     finally:
         # TODO: after you break out of the loop receiving echoed chunks from
         #       the server you will want to close your client socket.
+        sock.close()
         print >>log_buffer, 'closing socket'
 
 
