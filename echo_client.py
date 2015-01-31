@@ -10,10 +10,11 @@ def client(msg, log_buffer=sys.stderr):
     sock.connect(server_address)
     # this try/finally block exists purely to allow us to close the socket
     # when we are finished with it
+    buffsize = 16
     try:
         print >>log_buffer, 'sending "{0}"'.format(msg)
         # TODO: send your message to the server here.
-        msg = "GET / HTTP/1.1\r\n"
+        sock.sendall(msg)
         # TODO: the server should be sending you back your message as a series
         #       of 16-byte chunks.  You will want to log them as you receive
         #       each one.  You will also need to check to make sure that
@@ -22,8 +23,11 @@ def client(msg, log_buffer=sys.stderr):
         #
         #       Make sure that you log each chunk you receive.  Use the print
         #       statement below to do it. (The tests expect this log format)
-        chunk = sock.recv(16)
-        print >>log_buffer, 'received "{0}"'.format(chunk)
+        while True:
+            chunk = sock.recv(buffsize)
+            print >>log_buffer, 'received "{0}"'.format(chunk)
+            if len(chunk) < buffsize:
+                break
     finally:
         # TODO: after you break out of the loop receiving echoed chunks from
         #       the server you will want to close your client socket.

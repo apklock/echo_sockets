@@ -1,7 +1,6 @@
 import socket
 import sys
 
-
 def server(log_buffer=sys.stderr):
     # set an address for our server
     address = ('127.0.0.1', 10000)
@@ -18,6 +17,7 @@ def server(log_buffer=sys.stderr):
     #       for incoming connections
     sock.bind(address)
     sock.listen(1)
+    buffsize = 16
     try:
         # the outer loop controls the creation of new connection sockets. The
         # server will handle each incoming connection one at a time.
@@ -42,13 +42,15 @@ def server(log_buffer=sys.stderr):
                     #       following line with your code.  It's only here as
                     #       a placeholder to prevent an error in string
                     #       formatting
-                    data = conn.recv(16)
+                    data = conn.recv(buffsize)
                     print >>log_buffer, 'received "{0}"'.format(data)
                     # TODO: you will need to check here to see if any data was
                     #       received.  If so, send the data you got back to
                     #       the client.  If not, exit the inner loop and wait
                     #       for a new connection from a client
                     conn.sendall(data)
+                    if len(data) < buffsize:
+                        break
             finally:
                 # TODO: When the inner loop exits, this 'finally' clause will
                 #       be hit. Use that opportunity to close the socket you
