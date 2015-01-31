@@ -7,7 +7,7 @@ def client(msg, log_buffer=sys.stderr):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, socket.IPPROTO_TCP)
     print >>log_buffer, 'connecting to {0} port {1}'.format(*server_address)
     # TODO: connect your socket to the server here.
-    server_address.connect(sock)
+    sock.connect(server_address)
     # this try/finally block exists purely to allow us to close the socket
     # when we are finished with it
     try:
@@ -22,7 +22,7 @@ def client(msg, log_buffer=sys.stderr):
         #
         #       Make sure that you log each chunk you receive.  Use the print
         #       statement below to do it. (The tests expect this log format)
-        chunk = ''
+        chunk = sock.recv(16)
         print >>log_buffer, 'received "{0}"'.format(chunk)
     finally:
         # TODO: after you break out of the loop receiving echoed chunks from
