@@ -42,27 +42,27 @@ def server(log_buffer=sys.stderr):
                     #       following line with your code.  It's only here as
                     #       a placeholder to prevent an error in string
                     #       formatting
-                    data = ''
+                    data = conn.recv(16)
                     print >>log_buffer, 'received "{0}"'.format(data)
                     # TODO: you will need to check here to see if any data was
                     #       received.  If so, send the data you got back to
                     #       the client.  If not, exit the inner loop and wait
                     #       for a new connection from a client
-
+                    conn.sendall(data)
             finally:
                 # TODO: When the inner loop exits, this 'finally' clause will
                 #       be hit. Use that opportunity to close the socket you
                 #       created above when a client connected.  Replace the
                 #       call to `pass` below, which is only there to prevent
                 #       syntax problems
-                pass
+                conn.close()
 
     except KeyboardInterrupt:
         # TODO: Use the python KeyboardIntterupt exception as a signal to
         #       close the server socket and exit from the server function.
         #       Replace the call to `pass` below, which is only there to
         #       prevent syntax problems
-        pass
+        sock.close()
 
 
 if __name__ == '__main__':
