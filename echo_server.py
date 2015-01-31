@@ -16,7 +16,8 @@ def server(log_buffer=sys.stderr):
 
     # TODO: bind your new sock 'sock' to the address above and begin to listen
     #       for incoming connections
-
+    sock.bind(address)
+    sock.listen(1)
     try:
         # the outer loop controls the creation of new connection sockets. The
         # server will handle each incoming connection one at a time.
@@ -28,7 +29,7 @@ def server(log_buffer=sys.stderr):
             #       the client so we can report it below.  Replace the
             #       following line with your code. It is only here to prevent
             #       syntax errors
-            addr = ('bar', 'baz')
+            conn, addr = sock.accept()
             try:
                 print >>log_buffer, 'connection - {0}:{1}'.format(*addr)
 
